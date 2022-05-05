@@ -8,7 +8,7 @@ class CollectionController {
             return res.status(200).json(idList.data)
         } catch (err) {
             console.error(err);
-            return res.status(500).json({ error: 'internal error' });
+            return res.status(500).json({ error: 'internal service error' });
         }
     }
 }

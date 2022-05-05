@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getIdList } from '../../services/api';
 
-const Dashboard = () => {
+const SimilarityDashboard = () => {
 
     const apiKey = process.env.REACT_APP_API_KEY;
     console.log(apiKey);
@@ -109,4 +109,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default SimilarityDashboard

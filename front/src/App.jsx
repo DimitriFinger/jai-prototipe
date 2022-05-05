@@ -1,8 +1,8 @@
 import './App.css';
 import Header from './components/Header/Header';
 import SideMenu from './components/SideMenu/SideMenu';
-import Dashboard from './components/Dashboard/Dashboard';
 import Footer from './components/Footer/Footer';
+import AppRoutes from './config/routes';
 
 function App() {
     return (
@@ -14,7 +14,7 @@ function App() {
 
             <Header />
             <SideMenu />
-            <Dashboard />
+            <AppRoutes />
             <Footer />
         </div >
     );
