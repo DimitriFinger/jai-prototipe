@@ -8,6 +8,8 @@ const SimilarityDashboard = () => {
 
     const [idList, setIdList] = useState([]);
     const [imageIterator, setImageIterator] = useState(0);
+    const [searchIdValue, setSearchIdValue] = useState(0)
+    const [searchNumberValue, setSearchNumberValue] = useState(0)
     const [loading, setLoading] = useState(true);
     const [loadingError, setLoadingError] = useState(false);
 
@@ -21,6 +23,30 @@ const SimilarityDashboard = () => {
             setLoadingError(true);
             console.log(err);
         }
+    }
+
+    const searchNumber = (e) => {
+        e.preventDefault();
+        console.log('NUMBER', searchNumberValue)
+        if (idList[searchNumberValue]) {
+
+            console.log('entrou no if')
+            setImageIterator(searchNumberValue)
+            console.log(imageIterator)
+            console.log('typing here', typeof (imageIterator));
+        } else {
+            alert("Invalid image number!");
+        }
+    }
+
+
+
+
+
+
+    const searchId = (e) => {
+        e.preventDefault();
+        console.log('ID', searchIdValue)
     }
 
     useEffect(() => {
@@ -75,14 +101,14 @@ const SimilarityDashboard = () => {
                                         <form>
                                             <div class="form-group row">
                                                 <label for="staticValue" class="col-sm-3 col-form-label">Number</label>
-                                                <div class="col-sm-3">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticNumber" value={imageIterator + 1} />
+                                                <div class="col-sm-3 " id="show-value-input">
+                                                    {imageIterator}
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="staticValue" class="col-sm-3 col-form-label">ID</label>
-                                                <div class="col-sm-3">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticNumber" value={idList[imageIterator]} />
+                                                <label class="col-sm-3 col-form-label">ID</label>
+                                                <div class="col-sm-3" id="show-value-input" >
+                                                    {idList[imageIterator]}
                                                 </div>
                                             </div>
                                         </form>
@@ -97,10 +123,10 @@ const SimilarityDashboard = () => {
                                             <div class="form-group row">
                                                 <label for="staticValue" class="col-sm-5 col-form-label">Insert image ID</label>
                                                 <div class="col-sm-3">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticNumber" value={idList[imageIterator]} />
+                                                    <input class="form-control-plaintext" id="staticNumber" placeholder="####" value={searchIdValue} onChange={((e) => setSearchIdValue(e.target.value))} />
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <button type="submit" class="btn btn-primary mb-2">Search</button>
+                                                    <button class="btn btn-primary mb-2" onClick={searchId}>Search</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -111,14 +137,14 @@ const SimilarityDashboard = () => {
                                         <h4 className="card-title">Search by Number</h4>
                                     </div>
                                     <div className="card-body" >
-                                        <form>
+                                        <form >
                                             <div class="form-group row">
                                                 <label for="staticValue" class="col-sm-5 col-form-label">Insert image number</label>
                                                 <div class="col-sm-3">
-                                                    <input type="text" readonly class="form-control-plaintext" id="staticNumber" value={imageIterator + 1} />
+                                                    <input class="form-control-plaintext" id="staticNumber" value={searchNumberValue} onChange={((e) => setSearchNumberValue(e.target.value))} />
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <button type="submit" class="btn btn-primary mb-2">Search</button>
+                                                    <button class="btn btn-primary mb-2" onClick={searchNumber}>Search</button>
                                                 </div>
                                             </div>
                                         </form>

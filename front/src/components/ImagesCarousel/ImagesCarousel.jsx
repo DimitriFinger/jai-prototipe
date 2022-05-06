@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
 
@@ -16,13 +16,16 @@ const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
 
     const nextImage = () => {
         if (imageIterator < idList.length) {
-            setImageIterator(imageIterator + 1);
+            console.log('typing here', typeof (imageIterator));
+            setImageIterator(parseInt(imageIterator) + 1);
         }
     }
 
     const prevImage = () => {
         if (imageIterator > 0) {
-            setImageIterator(imageIterator - 1);
+
+            console.log('typing here', typeof (imageIterator));
+            setImageIterator(parseInt(imageIterator) - 1);
         }
     }
 
