@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
-const ImagesCarousel = ({ idList }) => {
-    const [imageIterator, setImageIterator] = useState(0);
+const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
 
     const loadImage = () => {
         var url = `https://myceliademo.blob.core.windows.net/fashion-imgs/images/${idList[imageIterator]}.jpg`;
@@ -16,14 +15,12 @@ const ImagesCarousel = ({ idList }) => {
     }
 
     const nextImage = () => {
-        console.log("next");
         if (imageIterator < idList.length) {
             setImageIterator(imageIterator + 1);
         }
     }
 
     const prevImage = () => {
-        console.log("prev");
         if (imageIterator > 0) {
             setImageIterator(imageIterator - 1);
         }
@@ -32,10 +29,7 @@ const ImagesCarousel = ({ idList }) => {
     return (
         <div>
             <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
-
                 <div className="carousel-inner">
-
-
                     {
                         loadImage()
                     }
