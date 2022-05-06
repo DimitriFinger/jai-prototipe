@@ -1,24 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import { getIdList } from '../../services/api';
+import ImagesCarousel from '../ImagesCarousel/ImagesCarousel';
 
 const SimilarityDashboard = () => {
 
-    const apiKey = process.env.REACT_APP_API_KEY;
-    console.log(apiKey);
-
-    const [idList, setIdList] = useState([])
+    const [idList, setIdList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [loadingError, setLoadingError] = useState(false);
 
     const loadIds = async () => {
-        const response = await getIdList();
-        setIdList(response.data)
-        console.log(idList)
-
-
+        try {
+            const response = await getIdList();
+            setIdList(response.data);
+            console.log(idList.data);
+            setLoading(false);
+        } catch (err) {
+            setLoadingError(true);
+            console.log(err);
+        }
     }
 
     useEffect(() => {
         (async () => await loadIds())();
     }, []);
+
+    if (loading) {
+        return (
+            <h1>Carregando...</h1>
+        )
+    }
+
+    if (loadingError) {
+        return (
+            <h1>Erro ao carregar os dados.</h1>
+        )
+    }
 
 
     return (
@@ -91,7 +107,7 @@ const SimilarityDashboard = () => {
                                         <h5 className="card-title">Similarity search</h5>
                                     </div>
                                     <div className="card-body">
-                                        hello
+                                        <ImagesCarousel idList={idList} />
                                     </div>
                                     <div className="card-footer">
                                         Card footer
