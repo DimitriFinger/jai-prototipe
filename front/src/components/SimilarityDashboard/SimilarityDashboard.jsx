@@ -40,13 +40,15 @@ const SimilarityDashboard = () => {
     }
 
 
-
-
-
-
     const searchId = (e) => {
         e.preventDefault();
-        console.log('ID', searchIdValue)
+
+        if (idList.indexOf(parseInt(searchIdValue)) !== -1) {
+            setImageIterator(idList.indexOf(parseInt(searchIdValue)))
+        }
+        else {
+            alert("Invalid image ID!");
+        }
     }
 
     useEffect(() => {
@@ -123,7 +125,7 @@ const SimilarityDashboard = () => {
                                             <div class="form-group row">
                                                 <label for="staticValue" class="col-sm-5 col-form-label">Insert image ID</label>
                                                 <div class="col-sm-3">
-                                                    <input class="form-control-plaintext" id="staticNumber" placeholder="####" value={searchIdValue} onChange={((e) => setSearchIdValue(e.target.value))} />
+                                                    <input class="form-control-plaintext" id="staticNumber" value={searchIdValue} onChange={((e) => setSearchIdValue(e.target.value))} />
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <button class="btn btn-primary mb-2" onClick={searchId}>Search</button>

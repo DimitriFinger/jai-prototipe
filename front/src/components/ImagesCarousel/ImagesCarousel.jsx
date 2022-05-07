@@ -16,15 +16,12 @@ const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
 
     const nextImage = () => {
         if (imageIterator < idList.length) {
-            console.log('typing here', typeof (imageIterator));
             setImageIterator(parseInt(imageIterator) + 1);
         }
     }
 
     const prevImage = () => {
         if (imageIterator > 0) {
-
-            console.log('typing here', typeof (imageIterator));
             setImageIterator(parseInt(imageIterator) - 1);
         }
     }
