@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { getIdList } from '../../services/apiCollection';
 import { findSimilars } from '../../services/apiSimilaritySearch';
-import ImagesCarousel from '../ImagesCarousel/ImagesCarousel';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import ResultCarousel from '../ResultCarousel/ResultCarousel';
+import ImagesCarousel from '../../components/ImagesCarousel/ImagesCarousel';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
+import ResultCarousel from '../../components/ResultCarousel/ResultCarousel';
 import './styles.css';
+import ResultsModal from '../../components/ResultsModal/ResultsModal';
 
 const SimilarityDashboard = () => {
 
@@ -13,7 +14,7 @@ const SimilarityDashboard = () => {
     const [imageIterator, setImageIterator] = useState(0);
     const [similarNumberValue, setSimilarNumberValue] = useState(5);
 
-    const [showResult, setShowResult] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const [searchIdValue, setSearchIdValue] = useState(0);
     const [searchNumberValue, setSearchNumberValue] = useState(0);
@@ -65,11 +66,17 @@ const SimilarityDashboard = () => {
             const response = await findSimilars(idList[imageIterator], similarNumberValue);
             console.log(response.data.similarity[0].results);
             setSimilarList(response.data.similarity[0].results);
-            setShowResult(true);
+            setIsModalVisible(true);
             console.log(similarList);
         } catch (err) {
             console.log(err);
         }
+    }
+
+    const showModal = () => {
+        return (
+            setIsModalVisible(!isModalVisible)
+        )
     }
 
     useEffect(() => {
@@ -200,7 +207,8 @@ const SimilarityDashboard = () => {
 
                             </div>
                         </div>
-                        {showResult ? <ResultCarousel similarList={similarList} /> : null}
+                        {/* {showResult ? <ResultCarousel similarList={similarList} /> : null} */}
+                        <ResultsModal isModalVisible={isModalVisible} onBackdropClick={showModal}> <ResultCarousel similarList={similarList} /> </ResultsModal>
                     </div>
                 </section>
             </div >

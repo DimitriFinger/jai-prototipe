@@ -4,8 +4,8 @@ import {
     Route,
     Routes
 } from 'react-router-dom';
-import HomeDashboard from '../components/HomeDashboard/HomeDashboard';
-import SimilarityDashboard from '../components/SimilarityDashboard/SimilarityDashboard';
+import HomeDashboard from '../pages/HomePage/HomeDashboard';
+import SimilarityDashboard from '../pages/SimilaritySearchPage/SimilarityDashboard';
 
 const AppRoutes = () => {
     return (

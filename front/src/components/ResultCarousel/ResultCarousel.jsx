@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import './styles.css';
 
 const ResultCarousel = ({ similarList }) => {
 
@@ -30,7 +31,7 @@ const ResultCarousel = ({ similarList }) => {
 
     return (
 
-        <div className="col-md-4 ">
+        <div className="col-md-4">
             <div className="card">
                 <div className="card-header">
                     <h5 className="card-title">Similar images</h5>
