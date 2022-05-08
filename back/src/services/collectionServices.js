@@ -8,7 +8,10 @@ class CollectionService {
     }
 
     getIdList() {
-        return this.api.get('/id/productimages?mode=complete', {
+        return this.api.get('/id/productimages', {
+            params: {
+                'mode': 'complete'
+            },
             headers: {
                 'Auth': process.env.JAI_API_KEY,
                 'Content-Type': 'application-json'

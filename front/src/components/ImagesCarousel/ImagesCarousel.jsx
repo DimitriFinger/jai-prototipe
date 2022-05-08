@@ -15,7 +15,7 @@ const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
     }
 
     const nextImage = () => {
-        if (imageIterator < idList.length) {
+        if (imageIterator < idList.length - 1) {
             setImageIterator(parseInt(imageIterator) + 1);
         }
     }

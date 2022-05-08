@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { getIdList } from '../../services/api';
+import { getIdList } from '../../services/apiCollection';
+import { findSimilars } from '../../services/apiSimilaritySearch';
 import ImagesCarousel from '../ImagesCarousel/ImagesCarousel';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import ResultCarousel from '../ResultCarousel/ResultCarousel';
 import './styles.css';
 
 const SimilarityDashboard = () => {
 
     const [idList, setIdList] = useState([]);
+    const [similarList, setSimilarList] = useState({});
     const [imageIterator, setImageIterator] = useState(0);
-    const [searchIdValue, setSearchIdValue] = useState(0)
-    const [searchNumberValue, setSearchNumberValue] = useState(0)
+    const [similarNumberValue, setSimilarNumberValue] = useState(5);
+
+    const [showResult, setShowResult] = useState(false);
+
+    const [searchIdValue, setSearchIdValue] = useState(0);
+    const [searchNumberValue, setSearchNumberValue] = useState(0);
+
     const [loading, setLoading] = useState(true);
     const [loadingError, setLoadingError] = useState(false);
 
@@ -17,7 +25,6 @@ const SimilarityDashboard = () => {
         try {
             const response = await getIdList();
             setIdList(response.data);
-            console.log(idList.data);
             setLoading(false);
         } catch (err) {
             setLoadingError(true);
@@ -42,12 +49,26 @@ const SimilarityDashboard = () => {
 
     const searchId = (e) => {
         e.preventDefault();
-
         if (idList.indexOf(parseInt(searchIdValue)) !== -1) {
+            console.log(imageIterator)
             setImageIterator(idList.indexOf(parseInt(searchIdValue)))
+            console.log(imageIterator)
         }
         else {
             alert("Invalid image ID!");
+        }
+    }
+
+    const searchSimilars = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await findSimilars(idList[imageIterator], similarNumberValue);
+            console.log(response.data.similarity[0].results);
+            setSimilarList(response.data.similarity[0].results);
+            setShowResult(true);
+            console.log(similarList);
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -153,22 +174,39 @@ const SimilarityDashboard = () => {
                                     </div>
                                 </div>
                                 <div className="card">
+                                    <div className="card-header">
+                                        <h4 className="card-title">Insert number of similar images</h4>
+                                    </div>
+                                    <div className="card-body" >
+                                        <form>
+                                            <div class="form-group row">
+                                                <label for="staticValue" class="col-sm-5 col-form-label">topK value</label>
+                                                <div class="col-sm-3">
+                                                    <input class="form-control-plaintext" id="staticNumber" value={similarNumberValue} onChange={((e) => setSimilarNumberValue(e.target.value))} />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div className="card">
                                     <div className="card-body mx-auto" >
                                         <div>
                                             <div>
-                                                <button type="submit" class="btn btn-secondary ">Find similars</button>
+                                                <button type="submit" class="btn btn-secondary" onClick={searchSimilars}>Find similars</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+                        {showResult ? <ResultCarousel similarList={similarList} /> : null}
                     </div>
                 </section>
-            </div>
+            </div >
             <aside className="control-sidebar control-sidebar-dark">
             </aside>
-        </div>
+        </div >
     )
 }
 
