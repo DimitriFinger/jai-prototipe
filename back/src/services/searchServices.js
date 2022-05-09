@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// https://mycelia.azure-api.net/similar/id/:db_name?id=0&top_k=5
-
 class SearchService {
     constructor() {
         this.api = axios.create({
