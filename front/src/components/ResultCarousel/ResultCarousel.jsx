@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 
-const ResultCarousel = ({ similarList }) => {
+const ResultCarousel = ({ similarList, closeModal }) => {
 
     const [resultIterator, setResultIterator] = useState(0);
 
@@ -35,6 +35,9 @@ const ResultCarousel = ({ similarList }) => {
             <div className="card">
                 <div className="card-header">
                     <h5 className="card-title">Similar images</h5>
+                    <button type="button" class="close" aria-label="Close" onClick={closeModal}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div className="card-body" >
                     <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">

@@ -3,7 +3,7 @@ import './styles.css';
 
 const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
 
-    const loadImage = () => {
+    const loadImages = () => {
         var url = `https://myceliademo.blob.core.windows.net/fashion-imgs/images/${idList[imageIterator]}.jpg`;
         return (
             <div>
@@ -32,7 +32,7 @@ const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
             <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
                 <div className="carousel-inner">
                     {
-                        loadImage()
+                        loadImages()
                     }
                 </div>
                 <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" onClick={prevImage} data-slide="prev">

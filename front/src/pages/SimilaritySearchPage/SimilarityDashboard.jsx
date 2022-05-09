@@ -20,7 +20,9 @@ const SimilarityDashboard = () => {
     const [searchNumberValue, setSearchNumberValue] = useState(0);
 
     const [loading, setLoading] = useState(true);
+    const [loadingResults, setLoadingResults] = useState(true);
     const [loadingError, setLoadingError] = useState(false);
+
 
     const loadIds = async () => {
         try {
@@ -33,6 +35,19 @@ const SimilarityDashboard = () => {
         }
     }
 
+    const searchSimilars = async (e) => {
+        e.preventDefault();
+        try {
+            setIsModalVisible(true);
+            const response = await findSimilars(idList[imageIterator], similarNumberValue);
+            console.log(response.data.similarity[0].results);
+            setSimilarList(response.data.similarity[0].results);
+            setLoadingResults(false);
+            console.log(similarList);
+        } catch (err) {
+            console.log(err);
+        }
+    }
     const searchNumber = (e) => {
         e.preventDefault();
         console.log('NUMBER', searchNumberValue)
@@ -60,23 +75,10 @@ const SimilarityDashboard = () => {
         }
     }
 
-    const searchSimilars = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await findSimilars(idList[imageIterator], similarNumberValue);
-            console.log(response.data.similarity[0].results);
-            setSimilarList(response.data.similarity[0].results);
-            setIsModalVisible(true);
-            console.log(similarList);
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
     const showModal = () => {
-        return (
-            setIsModalVisible(!isModalVisible)
-        )
+        setIsModalVisible(!isModalVisible)
+        setLoadingResults(true)
     }
 
     useEffect(() => {
@@ -207,8 +209,14 @@ const SimilarityDashboard = () => {
 
                             </div>
                         </div>
-                        {/* {showResult ? <ResultCarousel similarList={similarList} /> : null} */}
-                        <ResultsModal isModalVisible={isModalVisible} onBackdropClick={showModal}> <ResultCarousel similarList={similarList} /> </ResultsModal>
+                        {loadingResults ?
+                            <ResultsModal isModalVisible={isModalVisible}>
+                                <LoadingSpinner />
+                            </ResultsModal>
+                            :
+                            <ResultsModal isModalVisible={isModalVisible} onBackdropClick={showModal} loadingResults={loadingResults} >
+                                <ResultCarousel similarList={similarList} closeModal={showModal} />
+                            </ResultsModal>}
                     </div>
                 </section>
             </div >

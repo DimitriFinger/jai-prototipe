@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles.css'
 
-const ResultsModal = ({ isModalVisible, onBackdropClick, children }) => {
-    const teste = () => {
-        console.log("aqui carai")
-    }
+const ResultsModal = ({ isModalVisible, onBackdropClick, loadingResults, children }) => {
+
     if (!isModalVisible) {
         return null
     }
+
 
     return ReactDOM.createPortal(
         <div className='overlay' onClick={onBackdropClick}>
