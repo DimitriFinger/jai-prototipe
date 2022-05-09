@@ -5,3 +5,10 @@
 .carousel-control-next{
     filter: invert(100%);
 }
+
+.details-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    
+}

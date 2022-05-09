@@ -35,7 +35,7 @@ const ImagesCarousel = ({ idList, imageIterator, setImageIterator }) => {
                         loadImages()
                     }
                 </div>
-                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" onClick={prevImage} data-slide="prev">
+                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" onClick={prevImage} data-slide="prev" >
                     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span className="sr-only">Previous</span>
                 </a>

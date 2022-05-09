@@ -6,22 +6,27 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import ResultCarousel from '../../components/ResultCarousel/ResultCarousel';
 import './styles.css';
 import ResultsModal from '../../components/ResultsModal/ResultsModal';
+import AlertModal from '../../components/AlertModal/AlertModal';
+
 
 const SimilarityDashboard = () => {
 
     const [idList, setIdList] = useState([]);
     const [similarList, setSimilarList] = useState({});
     const [imageIterator, setImageIterator] = useState(0);
-    const [similarNumberValue, setSimilarNumberValue] = useState(5);
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const [searchIdValue, setSearchIdValue] = useState(0);
-    const [searchNumberValue, setSearchNumberValue] = useState(0);
+    const [similarNumberValue, setSimilarNumberValue] = useState();
+    const [searchIdValue, setSearchIdValue] = useState();
+    const [searchNumberValue, setSearchNumberValue] = useState();
 
     const [loading, setLoading] = useState(true);
     const [loadingResults, setLoadingResults] = useState(true);
     const [loadingError, setLoadingError] = useState(false);
+
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('')
 
 
     const loadIds = async () => {
@@ -40,25 +45,20 @@ const SimilarityDashboard = () => {
         try {
             setIsModalVisible(true);
             const response = await findSimilars(idList[imageIterator], similarNumberValue);
-            console.log(response.data.similarity[0].results);
             setSimilarList(response.data.similarity[0].results);
             setLoadingResults(false);
-            console.log(similarList);
         } catch (err) {
             console.log(err);
         }
     }
     const searchNumber = (e) => {
         e.preventDefault();
-        console.log('NUMBER', searchNumberValue)
         if (idList[searchNumberValue]) {
-
-            console.log('entrou no if')
             setImageIterator(searchNumberValue)
-            console.log(imageIterator)
-            console.log('typing here', typeof (imageIterator));
         } else {
-            alert("Invalid image number!");
+            setIsAlertVisible(true);
+            setErrorMessage("Invalid number! Please, try again.")
+
         }
     }
 
@@ -66,12 +66,11 @@ const SimilarityDashboard = () => {
     const searchId = (e) => {
         e.preventDefault();
         if (idList.indexOf(parseInt(searchIdValue)) !== -1) {
-            console.log(imageIterator)
             setImageIterator(idList.indexOf(parseInt(searchIdValue)))
-            console.log(imageIterator)
         }
         else {
-            alert("Invalid image ID!");
+            setIsAlertVisible(true);
+            setErrorMessage("Invalid ID! Please, try again.");
         }
     }
 
@@ -126,26 +125,27 @@ const SimilarityDashboard = () => {
                             </div>
                             <div className="col-md-4 ">
                                 <div className="card">
-                                    <div className="card-header">
+                                    <div className="card-header details-title">
                                         <h4 className="card-title">Image details</h4>
                                     </div>
+
                                     <div className="card-body" >
                                         <form>
-                                            <div class="form-group row">
-                                                <label for="staticValue" class="col-sm-3 col-form-label">Number</label>
+                                            <div class="form-group details-container">
+                                                <label for="staticValue" class="col-sm-3 col-form-label">NUMBER</label>
                                                 <div class="col-sm-3 " id="show-value-input">
                                                     {imageIterator}
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">ID</label>
-                                                <div class="col-sm-3" id="show-value-input" >
+                                                <label for="staticValue" class="col-sm-2 col-form-label">ID</label>
+                                                <div class="col-sm-3 " id="show-value-input">
                                                     {idList[imageIterator]}
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
+
+
                                 <div className="card">
                                     <div className="card-header">
                                         <h4 className="card-title">Search by ID</h4>
@@ -155,7 +155,7 @@ const SimilarityDashboard = () => {
                                             <div class="form-group row">
                                                 <label for="staticValue" class="col-sm-5 col-form-label">Insert image ID</label>
                                                 <div class="col-sm-3">
-                                                    <input class="form-control-plaintext" id="staticNumber" value={searchIdValue} onChange={((e) => setSearchIdValue(e.target.value))} />
+                                                    <input class="form-control-plaintext" type="number" id="staticNumber" placeholder='#####' value={searchIdValue} onChange={((e) => setSearchIdValue(e.target.value))} />
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <button class="btn btn-primary mb-2" onClick={searchId}>Search</button>
@@ -173,7 +173,7 @@ const SimilarityDashboard = () => {
                                             <div class="form-group row">
                                                 <label for="staticValue" class="col-sm-5 col-form-label">Insert image number</label>
                                                 <div class="col-sm-3">
-                                                    <input class="form-control-plaintext" id="staticNumber" value={searchNumberValue} onChange={((e) => setSearchNumberValue(e.target.value))} />
+                                                    <input class="form-control-plaintext" id="staticNumber" type="number" value={searchNumberValue} placeholder='#####' onChange={((e) => setSearchNumberValue(e.target.value))} />
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <button class="btn btn-primary mb-2" onClick={searchNumber}>Search</button>
@@ -191,7 +191,7 @@ const SimilarityDashboard = () => {
                                             <div class="form-group row">
                                                 <label for="staticValue" class="col-sm-5 col-form-label">topK value</label>
                                                 <div class="col-sm-3">
-                                                    <input class="form-control-plaintext" id="staticNumber" value={similarNumberValue} onChange={((e) => setSimilarNumberValue(e.target.value))} />
+                                                    <input class="form-control-plaintext" id="staticNumber" value={similarNumberValue} placeholder='#####' onChange={((e) => setSimilarNumberValue(e.target.value))} />
                                                 </div>
                                             </div>
                                         </form>
@@ -199,24 +199,34 @@ const SimilarityDashboard = () => {
                                 </div>
                                 <div className="card">
                                     <div className="card-body mx-auto" >
-                                        <div>
-                                            <div>
-                                                <button type="submit" class="btn btn-secondary" onClick={searchSimilars}>Find similars</button>
-                                            </div>
-                                        </div>
+
+                                        <button type="submit" class="btn btn-secondary" onClick={searchSimilars}>Find similars</button>
+
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                         {loadingResults ?
-                            <ResultsModal isModalVisible={isModalVisible}>
+                            <ResultsModal
+                                isModalVisible={isModalVisible}
+                            >
                                 <LoadingSpinner />
                             </ResultsModal>
                             :
-                            <ResultsModal isModalVisible={isModalVisible} onBackdropClick={showModal} loadingResults={loadingResults} >
-                                <ResultCarousel similarList={similarList} closeModal={showModal} />
+                            <ResultsModal
+                                isModalVisible={isModalVisible}
+                                onBackdropClick={showModal}
+                                loadingResults={loadingResults}
+                            >
+                                <ResultCarousel
+                                    similarList={similarList}
+                                    closeModal={showModal}
+                                    idList={idList}
+                                />
                             </ResultsModal>}
+
+                        {isAlertVisible ? <AlertModal setIsAlertVisible={setIsAlertVisible} isAlertVisible={isAlertVisible}>{errorMessage}</AlertModal> : null}
                     </div>
                 </section>
             </div >
